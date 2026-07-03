@@ -24,7 +24,12 @@ export const registerUser = async (req: Request, res: Response) => {
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
     expiresIn: "24h",
   });
-  res.cookie("token", token, { maxAge: 24 * 60 * 60 * 1000 });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
   res.status(201).json({ user, token, message: "User created Successfully" });
 };
 
@@ -44,12 +49,21 @@ export const loginUser = async (req: Request, res: Response) => {
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET!, {
     expiresIn: "24h",
   });
-  res.cookie("token", token, { maxAge: 24 * 60 * 60 * 1000 });
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+    maxAge: 24 * 60 * 60 * 1000,
+  });
   res.status(200).json({ user, token, message: "User logged in Successfully" });
 };
 
 export const logoutUser = async (req: Request, res: Response) => {
-  res.clearCookie("token");
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true,
+    sameSite: "none",
+  });
   res.status(200).json({ message: "User logged out Successfully" });
 };
 

@@ -27,6 +27,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
+app.get('/api',(req,res)=>{
+  res.json({message:'API is running'})
+})
+
 app.use("/api/payment", paymentRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/listing", listingRoutes);
